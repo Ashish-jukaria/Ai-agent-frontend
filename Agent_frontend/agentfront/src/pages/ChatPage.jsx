@@ -5,7 +5,7 @@ import PdfUploader from '../components/PdfUploader';
 import ChatMessages from '../components/ChatMessages';
 import ChatInput from '../components/ChatInput';
 
-const FASTAPI_URL = "http://localhost:8000";
+const FASTAPI_URL = "https://ai-agent-z14g.onrender.com";
 const POLL_INTERVAL_MS = 1500;
 const MAX_POLL_ATTEMPTS = 40; // ~60s before giving up
 

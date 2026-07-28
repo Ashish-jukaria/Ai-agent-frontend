@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const FASTAPI_URL = "http://localhost:8000";
+const FASTAPI_URL = "https://ai-agent-z14g.onrender.com";
 
 export default function PdfUploader() {
   const [uploadingPdf, setUploadingPdf] = useState(false);
