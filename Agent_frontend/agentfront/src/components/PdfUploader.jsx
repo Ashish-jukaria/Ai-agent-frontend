@@ -11,6 +11,7 @@ const FASTAPI_URL = "http://localhost:8000";
 export default function PdfUploader() {
   const [uploadingPdf, setUploadingPdf] = useState(false);
   const [uploadStatus, setUploadStatus] = useState("");
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const { getToken } = useAuth();
 
   const handleFileUpload = async (event) => {
@@ -18,6 +19,7 @@ export default function PdfUploader() {
     if (!file) return;
     setUploadingPdf(true);
     setUploadStatus("Uploading...");
+    setUploadSuccess(false);
 
     try {
       const token = await getToken();
@@ -29,21 +31,23 @@ export default function PdfUploader() {
           "content-type": "multipart/form-data",
         },
       });
-      if (response.status === 200) {
-        setUploadStatus("PDF uploaded and stored successfully!");
+      if (response.status === 200 && !response.data.error) {
+        setUploadStatus(`"${response.data.filename}" stored (${response.data.chunks_stored} chunks)`);
+        setUploadSuccess(true);
       } else {
-        setUploadStatus("Upload failed.");
+        setUploadStatus(response.data.error || "Upload failed.");
       }
     } catch {
       setUploadStatus("Upload failed.");
     } finally {
       setUploadingPdf(false);
+      event.target.value = ""; // fix: allow re-uploading the same filename
     }
   };
 
   return (
     <div className="flex flex-col gap-2">
-      <Card className="border-border/60 bg-linear-to-r from-slate-50 to-white p-4 shadow-sm">
+      <Card className="border-border/60 bg-linear-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 p-4 shadow-sm transition-colors duration-300">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="rounded-2xl bg-primary/10 p-2.5 text-primary">
@@ -51,7 +55,7 @@ export default function PdfUploader() {
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">Knowledge Base Context (PDF)</p>
-              <p className="text-xs text-muted-foreground">Upload documents to enrich the assistant’s answers.</p>
+              <p className="text-xs text-muted-foreground">Upload documents to enrich the assistant's answers.</p>
             </div>
           </div>
 
@@ -75,8 +79,13 @@ export default function PdfUploader() {
 
       {uploadStatus && (
         <div className="flex items-center gap-1.5 px-1">
-          <Badge variant={uploadStatus.includes('Stored') ? "default" : "destructive"} className="rounded-full text-[11px]">
-            {uploadStatus.includes('Stored') ? (
+          <Badge
+            variant={uploadingPdf ? "outline" : uploadSuccess ? "default" : "destructive"}
+            className="rounded-full text-[11px]"
+          >
+            {uploadingPdf ? (
+              <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+            ) : uploadSuccess ? (
               <CheckCircle2 className="mr-1 h-3 w-3" />
             ) : (
               <AlertCircle className="mr-1 h-3 w-3" />
