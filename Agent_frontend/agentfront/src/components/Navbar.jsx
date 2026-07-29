@@ -36,11 +36,10 @@ export default function Navbar() {
         <SignedOut>
           <SignInButton mode="modal">
             <Button size="sm">Sign In</Button>
-            <GoogleCalendarConnect />
-
           </SignInButton>
         </SignedOut>
         <SignedIn>
+          <GoogleCalendarConnect />
           <UserButton afterSignOutUrl="/" />
         </SignedIn>
       </div>
