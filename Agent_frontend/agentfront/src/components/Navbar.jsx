@@ -3,6 +3,7 @@ import { Database, Moon, Sun } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "../context/ThemeContext";
+import GoogleCalendarConnect from "./GoogleCalendarConnect";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -35,6 +36,8 @@ export default function Navbar() {
         <SignedOut>
           <SignInButton mode="modal">
             <Button size="sm">Sign In</Button>
+            <GoogleCalendarConnect />
+
           </SignInButton>
         </SignedOut>
         <SignedIn>
