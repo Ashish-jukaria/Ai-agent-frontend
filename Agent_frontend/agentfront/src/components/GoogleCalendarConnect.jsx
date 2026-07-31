@@ -76,7 +76,7 @@ export default function GoogleCalendarConnect() {
         <>
           <Badge variant="default" className="rounded-full text-[11px]">
             <CheckCircle2 className="mr-1 h-3 w-3" />
-            Calendar connected
+          Calender and Gmail connected
           </Badge>
           <Button size="sm" variant="ghost" onClick={handleDisconnect} className="text-xs text-muted-foreground">
             Disconnect
@@ -85,7 +85,7 @@ export default function GoogleCalendarConnect() {
       ) : (
         <Button size="sm" variant="secondary" onClick={handleConnect} disabled={connecting} className="rounded-full text-xs">
           {connecting ? <Loader2 className="mr-1.5 h-3 w-3 animate-spin" /> : <Calendar className="mr-1.5 h-3 w-3" />}
-          {connecting ? "Connecting..." : "Connect Google Calendar"}
+          {connecting ? "Connecting..." : "Connect Google Calendar and Gmail"}
         </Button>
       )}
     </div>
