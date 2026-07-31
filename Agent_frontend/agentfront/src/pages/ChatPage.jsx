@@ -31,7 +31,7 @@ export default function ChatPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (data.status === "done") return data.response;
+      if (data.status === "done") return { text: data.response, pendingDraft: data.pending_draft || null };;
       if (data.status === "error") throw new Error(data.error || "Something went wrong.");
       // status === "pending" -> keep polling
     }
@@ -50,8 +50,8 @@ export default function ChatPage() {
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );
 
-      const aiReply = await pollJob(data.job_id);
-      setMessages((prev) => [...prev, { role: "ai", text: aiReply || "No response received." }]);
+      const {aiReply,pendingDraft } = await pollJob(data.job_id);
+      setMessages((prev) => [...prev, { role: "ai", text: aiReply || "No response received.",pendingDraft  }]);
     } catch (error) {
       const errMsg = error.response?.data?.detail || error.message || "Error connecting to backend.";
       setMessages((prev) => [...prev, { role: "ai", text: `❌ ${errMsg}` }]);

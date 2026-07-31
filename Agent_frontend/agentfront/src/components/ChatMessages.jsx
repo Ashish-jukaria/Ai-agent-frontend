@@ -2,6 +2,7 @@ import { Bot, Loader2, Sparkles } from 'lucide-react';
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import EmailDraftCard from './EmailDraftCard';
 
 const markdownComponents = {
   p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
@@ -49,17 +50,24 @@ export default function ChatMessages({ messages, loading }) {
               {msg.text}
             </div>
           ) : (
-            <div className="flex w-full gap-4 max-w-[90%]">
-              <Avatar className="h-8 w-8 shrink-0 border border-border/50 shadow-sm">
-                <AvatarFallback className="bg-background text-primary">
-                  <Bot className="h-4 w-4" />
-                </AvatarFallback>
-              </Avatar>
-              <div className="pt-1 text-[15px] leading-relaxed text-foreground min-w-0 flex-1">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                  {msg.text}
-                </ReactMarkdown>
+            <div className="flex w-full flex-col gap-3 max-w-[90%]">
+              <div className="flex w-full gap-4">
+                <Avatar className="h-8 w-8 shrink-0 border border-border/50 shadow-sm">
+                  <AvatarFallback className="bg-background text-primary">
+                    <Bot className="h-4 w-4" />
+                  </AvatarFallback>
+                </Avatar>
+                <div className="pt-1 text-[15px] leading-relaxed text-foreground min-w-0 flex-1">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                    {msg.text}
+                  </ReactMarkdown>
+                </div>
               </div>
+              {msg.pendingDraft && (
+                <div className="ml-12">
+                  <EmailDraftCard draft={msg.pendingDraft} />
+                </div>
+              )}
             </div>
           )}
         </div>
