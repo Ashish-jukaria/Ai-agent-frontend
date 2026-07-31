@@ -50,8 +50,8 @@ export default function ChatPage() {
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );
 
-      const {aiReply,pendingDraft } = await pollJob(data.job_id);
-      setMessages((prev) => [...prev, { role: "ai", text: aiReply || "No response received.",pendingDraft  }]);
+      const {text,pendingDraft } = await pollJob(data.job_id);
+      setMessages((prev) => [...prev, { role: "ai", text: text || "No response received.",pendingDraft  }]);
     } catch (error) {
       const errMsg = error.response?.data?.detail || error.message || "Error connecting to backend.";
       setMessages((prev) => [...prev, { role: "ai", text: `❌ ${errMsg}` }]);
