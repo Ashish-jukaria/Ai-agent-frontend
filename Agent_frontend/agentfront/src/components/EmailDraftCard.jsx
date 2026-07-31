@@ -5,7 +5,7 @@ import { Mail, Send, X, Loader2, CheckCircle2 } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-const FASTAPI_URL = "http://localhost:8000";
+const FASTAPI_URL = "https://ai-agent-z14g.onrender.com";
 
 export default function EmailDraftCard({ draft }) {
   const [status, setStatus] = useState("pending");
